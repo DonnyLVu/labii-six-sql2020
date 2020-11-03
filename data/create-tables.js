@@ -20,7 +20,9 @@ async function run() {
                 CREATE TABLE colors (
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(512) NOT NULL,
-                    cool_factor INTEGER NOT NULL,
+                    ranger_color VARCHAR(256) NOT NULL,
+                    favorite BOOLEAN NOT NULL,
+                    order_appeared INTEGER NOT NULL,
                     owner_id INTEGER NOT NULL REFERENCES users(id)
             );
         `);
