@@ -25,12 +25,12 @@ async function run() {
     const user = users[0].rows[0];
 
     await Promise.all(
-      colors.map(colors => {
+      colors.map(color => {
         return client.query(`
                     INSERT INTO colors (name, cool_factor, owner_id)
                     VALUES ($1, $2, $3);
                 `,
-        [colors.name, colors.cool_factor, user.id]);
+        [color.name, color.cool_factor, user.id]);
       })
     );
     
