@@ -8,4 +8,5 @@ const PORT = process.env.PORT || 7744;
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Started on ${PORT}`);
+  console.log('Connect please');
 });
