@@ -30,7 +30,7 @@ async function run() {
                     INSERT INTO rangers (name, ranger_color, favorite, order_appeared, owner_id)
                     VALUES ($1, $2, $3, $4, $5);
                 `,
-        [ranger.name, ranger.ranger_color, ranger.ranger_color, ranger.favorite, ranger.order_appeared, user.id]);
+        [ranger.name, ranger.ranger_color, ranger.favorite, ranger.order_appeared, user.id]);
       })
     );
     

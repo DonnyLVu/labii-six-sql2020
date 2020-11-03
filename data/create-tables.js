@@ -17,7 +17,7 @@ async function run() {
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
                 );           
-                CREATE TABLE colors (
+                CREATE TABLE artists (
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(512) NOT NULL,
                     ranger_color VARCHAR(256) NOT NULL,
@@ -37,5 +37,4 @@ async function run() {
     // success or failure, need to close the db connection
     client.end();
   }
-
 }
