@@ -31,34 +31,166 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-  test('returns animals', async() => {
+    test('returns rangers', async() => {
 
-    const expectation = [
-      {
-        'id': 1,
-        'name': 'bessie',
-        'coolfactor': 3,
-        'owner_id': 1
-      },
-      {
-        'id': 2,
-        'name': 'jumpy',
-        'coolfactor': 4,
-        'owner_id': 1
-      },
-      {
-        'id': 3,
-        'name': 'spot',
-        'coolfactor': 10,
-        'owner_id': 1
-      }
-    ];
+      const expectation = [
+        {
+          id: 1,
+          name: 'Jason Lee Scott',
+          ranger_color: 'red',
+          favorite: false,
+          owner_id: 1,
+          order_appeared: 3,
+        },
+        {
+          id: 2,
+          name: 'Billy Cranston',
+          ranger_color: 'blue',
+          favorite: false,
+          owner_id: 1,
+          order_appeared: 5,
+        },
+        {
+          id: 3,
+          name: 'Trini Kwan',
+          ranger_color: 'yellow',
+          favorite: false,
+          owner_id: 1,
+          order_appeared: 1,
+        },
+        {
+          id: 4,
+          name: 'Zack Taylor',
+          ranger_color: 'black',
+          favorite: false,
+          owner_id: 1,
+          order_appeared: 4,
+        },
+        {
+          id: 5,
+          name: 'Kimberly Ann Hart',
+          ranger_color: 'pink',
+          favorite: false,
+          owner_id: 1,
+          order_appeared: 2,
+        },
+        {
+          id: 6,
+          name: 'Tommy Oliver',
+          ranger_color: 'green',
+          favorite: true,
+          owner_id: 1,
+          order_appeared: 6,
+        },
+      ];
+      
+      const data = await fakeRequest(app)
+        .get('/rangers')
+        .expect('Content-Type', /json/)
+        .expect(200);
+      expect(data.body).toEqual(expectation);
+    });
 
-    const data = await fakeRequest(app)
-      .get('/animals')
-      .expect('Content-Type', /json/)
-      .expect(200);
+    test('returns a single red ranger', async() => {
+      const expectation = {
+        id: 1,
+        name: 'Jason Lee Scott',
+        ranger_color: 'red',
+        favorite: false,
+        owner_id: 1,
+        order_appeared: 3,
+      };
 
-    expect(data.body).toEqual(expectation);
+      const data = await fakeRequest(app)
+        .get('/rangers/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    test('adds a single ranger to the database and returns it', async() => {
+      const expectation = {
+        id: 7,
+        name: 'Donny Vu',
+        ranger_color: 'RGB',
+        favorite: true,
+        owner_id: 1,
+        order_appeared: 7,
+      };
+
+      const data = await fakeRequest(app)
+        .post('/rangers')
+        .send({
+          id: 7,
+          name: 'Donny Vu',
+          ranger_color: 'RGB',
+          favorite: true,
+          owner_id: 1,
+          order_appeared: 7,
+        })
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const allRangers = await fakeRequest(app)
+        .get('/rangers')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+      expect(allRangers.body.length).toEqual(7);
+    });
+
+    test('updates a ranger by replacement and returns it', async() => {
+      const expectation = {
+        id: 1,
+        name: 'Duck McGee',
+        ranger_color: 'silver',
+        favorite: false,
+        order_appeared: 3,
+        owner_id: 1,
+      };
+
+      const data = await fakeRequest(app)
+        .put('/rangers/1')
+        .send({ 
+          name: 'Duck McGee',
+          ranger_color: 'silver',
+          favorite: false,
+          order_appeared: 3,
+          owner_id: 1,
+        });
+      await fakeRequest(app)
+        .get('/rangers/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+
+    });
+
+    test('deletes a single ranger from the db', async() => {
+      const deletedItem =   {
+        id: 5,
+        name: 'Kimberly Ann Hart',
+        ranger_color: 'pink',
+        favorite: false,
+        owner_id: 1,
+        order_appeared: 2,
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/rangers/5')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      await fakeRequest(app)
+        .get('/rangers')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(deletedItem);
+
+    });
   });
 });
