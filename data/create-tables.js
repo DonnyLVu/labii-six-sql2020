@@ -16,11 +16,15 @@ async function run() {
                     id SERIAL PRIMARY KEY,
                     email VARCHAR(256) NOT NULL,
                     hash VARCHAR(512) NOT NULL
-                );           
+                );
+                CREATE TABLE colors (
+                  id SERIAL PRIMARY KEY,
+                  ranger_color VARCHAR(512) NOT NULL
+              );
                 CREATE TABLE rangers (
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(512) NOT NULL,
-                    ranger_color VARCHAR(256) NOT NULL,
+                    ranger_color_id INTEGER NOT NULL REFERENCES colors(id),
                     favorite BOOLEAN NOT NULL,
                     order_appeared INTEGER NOT NULL,
                     owner_id INTEGER NOT NULL REFERENCES users(id)
