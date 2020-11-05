@@ -109,10 +109,11 @@ describe('app routes', () => {
       expect(data.body).toEqual(expectation);
     });
 
-    test.only('adds a single ranger to the database and returns it', async() => {
+    test('adds a single ranger to the database and returns it', async() => {
       const expectation = {
+        id: 7,
         name: 'Donny Vu',
-        ranger_color_id: 7,
+        ranger_color_id: 6,
         favorite: true,
         order_appeared: 7,
         owner_id: 1,
@@ -122,13 +123,13 @@ describe('app routes', () => {
         .post('/rangers')
         .send({
           name: 'Donny Vu',
-          ranger_color_id: 7,
+          ranger_color_id: 6,
           favorite: true,
           order_appeared: 7,
           owner_id: 1,
         })
         .expect('Content-Type', /json/)
-        .expect(500);
+        .expect(200);
 
       const allRangers = await fakeRequest(app)
         .get('/rangers')
@@ -143,7 +144,7 @@ describe('app routes', () => {
       const expectation = {
         id: 1,
         name: 'Duck McGee',
-        ranger_color_id: '10',
+        ranger_color_id: 3,
         favorite: false,
         order_appeared: 3,
         owner_id: 1,
@@ -153,7 +154,7 @@ describe('app routes', () => {
         .put('/rangers/1')
         .send({ 
           name: 'Duck McGee',
-          ranger_color_id: '10',
+          ranger_color_id: 3,
           favorite: false,
           order_appeared: 3,
           owner_id: 1,
@@ -171,7 +172,7 @@ describe('app routes', () => {
       const deletedItem =   {
         id: 5,
         name: 'Kimberly Ann Hart',
-        ranger_color_id: '5',
+        ranger_color_id: 5,
         favorite: false,
         owner_id: 1,
         order_appeared: 2,
