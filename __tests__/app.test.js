@@ -95,7 +95,7 @@ describe('app routes', () => {
       const expectation = {
         id: 1,
         name: 'Jason Lee Scott',
-        ranger_color_id: 1,
+        colors: 'red',
         favorite: false,
         owner_id: 1,
         order_appeared: 3,
